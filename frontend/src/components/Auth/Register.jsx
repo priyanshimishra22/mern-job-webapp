@@ -2,9 +2,11 @@ import React,{useContext, useState} from 'react'
 import {Context} from '../../main'
 import axios from "axios";
 import toast from "react-hot-toast";
-import {Navigate} from "react-router-dom"
+import {Navigate,Link} from "react-router-dom"
 import { FaPencilAlt, FaRegUser } from 'react-icons/fa';
 import {MdOutlineMailOutline} from 'react-icons/md'
+import { FaPhoneFlip } from 'react-icons/fa6';
+import { RiLock2Fill } from 'react-icons/ri';
 const Register = () => {
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
@@ -27,7 +29,7 @@ const Register = () => {
         withCredentials:true,
       headers:{
         "Content-Type":"application/json",
-      }
+      },
     }
     )
     toast.success(data.message);
@@ -44,7 +46,7 @@ const Register = () => {
   if(isAuthorized){
     return <Navigate to={"/"}/>
   }
-  return 
+  return (
     <>
     <div className="authPage">
       <div className="container">
@@ -90,11 +92,41 @@ const Register = () => {
               
             </div>
           </div>
+          <div className="inputTag">
+            <label> Email Address </label>
+            <div>
+              <input 
+              type="number" 
+              value={phone} 
+              onChange={(e)=>setPhone(e.target.value)} 
+              placeholder="123456789"/>
+              <FaPhoneFlip/>
+              
+            </div>
+          </div>
+          <div className="inputTag">
+            <label> Password </label>
+            <div>
+              <input 
+              type="password" 
+              value={password} 
+              onChange={(e)=>setPassword(e.target.value)} 
+              placeholder="Password"/>
+              <RiLock2Fill/>
+              
+            </div>
+          </div>
+          <button onClick={handleRegister} type="submit">Register</button>
+        <Link to={'/login'}>Login Now</Link>
         </form>
+      </div>
+      <div className="banner">
+        <img src="/register.png" alt="register"/>
       </div>
     </div>
 
     </>
+  )
   
 }
 

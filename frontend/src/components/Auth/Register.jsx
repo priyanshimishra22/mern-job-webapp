@@ -93,7 +93,7 @@ const Register = () => {
             </div>
           </div>
           <div className="inputTag">
-            <label> Email Address </label>
+            <label>Phone Number </label>
             <div>
               <input 
               type="number" 

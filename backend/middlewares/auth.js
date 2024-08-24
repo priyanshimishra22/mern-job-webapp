@@ -6,7 +6,7 @@ import {User} from '../models/userSchema.js'
 
 
 export const isAuthorized = catchAsyncError(async(req,res,next)=>{
-    const {token} =req.cookies;
+    const {token} = req.cookies;
     if(!token){
         return next(new ErrorHandler("User not authorized", 400));
     }

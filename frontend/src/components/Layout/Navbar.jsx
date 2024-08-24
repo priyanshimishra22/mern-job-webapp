@@ -1,4 +1,4 @@
-import React ,{useContext,useState} from 'react'
+import React ,{useContext,useEffect,useState} from 'react'
 import {Context} from '../../main'
 import {Link,useNavigate} from "react-router-dom"
 import axios from "axios";
@@ -16,12 +16,12 @@ const Navbar = () => {
       navigateTo("/login")
 
     }catch(error){
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message),
       setIsAuthorized(true)
       
     }
   }
-  return (<>
+  return (
   <nav className={isAuthorized ? "navbarShow":"navbarHide"}>
   <div className="container">
     <div className="logo">
@@ -43,12 +43,12 @@ const Navbar = () => {
     <li>
       <Link to={"/application/me"} onClick={()=>setShow(false)}>
         {
-          user && user.role== "Employer"?"Applicant's Applications":"My Applications"
+          user && user.role==="Employer"?"Applicant's Applications":"My Applications"
         }
       </Link>
     </li>
     {
-      user && user.role=="Employer"?(
+      user && user.role==="Employer"?(
         <>
         <li>
           <Link to={'/job/post'} onClick={()=>setShow(false)}> POST NEW JOB</Link>
@@ -57,7 +57,7 @@ const Navbar = () => {
           <Link to={'/job/me'} onClick={()=>setShow(false)}> VIEW YOUR JOBS</Link>
           </li>
           </>
-      ):<></>
+      ):(<></>)
     }
     <button onClick={handleLogout}>LOGOUT</button>
   </ul>
@@ -66,7 +66,7 @@ const Navbar = () => {
   </div>
   </div>
   </nav>
-  </>
+  
   )
    
 }

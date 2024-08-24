@@ -24,6 +24,7 @@ const App = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get("http://localhost:4000/api/v1/user/getuser", { withCredentials: true });
+        console.log("response")
         setUser(response.data.user);
         setIsAuthorized(true);
       } catch (error) {
@@ -40,7 +41,7 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/job/getall" element={<Jobs />} />
           <Route path="/job/:id" element={<JobDetails />} />
           <Route path="/job/post" element={<PostJobs />} />

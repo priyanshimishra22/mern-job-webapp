@@ -9,4 +9,5 @@ router.get("/logout", isAuthorized, logout);
 router.get("/getuser", isAuthorized, getUser);
 
 
+
 export default router;

@@ -1,6 +1,8 @@
 import React,{useContext, useEffect, useState} from 'react'
 import {Context} from '../../main'
 import {useNavigate} from "react-router-dom"
+import axios from "axios";
+import toast from "react-hot-toast";
 
 
 
@@ -19,7 +21,7 @@ const PostJob = () => {
   const {isAuthorized, user} = useContext(Context)
   const handleJobPost = async(e) =>{
     e.preventDefault()
-    if(salaryType==="FixedSalary"){
+    if(salaryType==="Fixed Salary"){
       setSalaryFrom("")
       setSalaryTo("")
 
@@ -31,8 +33,10 @@ const PostJob = () => {
       setFixedSalary("")
 
       }
-      await axios.post("http://localhost:4000/api/v1/job/post",fixedSalary.length>=4?(title,category,country,city,location, fixedSalary):
-      (title,category,country,city,location, salaryFrom, salaryTo),{withCredentials:true,
+      await axios.post("http://localhost:4000/api/v1/job/post",fixedSalary.length>=4?
+      {title,category,country,city,location, fixedSalary,description}:
+      {title,category,country,city,location, salaryFrom, salaryTo,description},
+      {withCredentials:true,
       headers:{
         "Content-Type":"application/json"
       }}).then((res)=>toast.success(res.data.message)).catch
@@ -99,7 +103,7 @@ const PostJob = () => {
           <select value={salaryType} 
             onChange={(e)=>setSalaryType(e.target.value)}>
 
-            <option value="default"></option>
+            <option value="default"> Select Salary Type</option>
             <option value="Fixed Salary">Fixed Salary</option>
             <option value="Ranged Salary">Ranged Salary</option>
             </select>
@@ -111,11 +115,22 @@ const PostJob = () => {
                 placeholder="Enter Fixed Salary" 
                 value={fixedSalary} onChange={(e)=>setFixedSalary(e.target.value)}/>
                 ):(
-                  <div></div>
+                  <div className="ranged_salary">
+                    <input type="number" 
+                    placeholder="Salary From" 
+                    value={salaryFrom}
+                    onChange={(e)=>setSalaryFrom(e.target.value)}/>
+                    <input type="number" placeholder="Salary To" value={salaryTo}
+                    onChange={(e)=>setSalaryTo(e.target.value)}/>
+                  </div>
                 
               )}
             </div>
             </div>
+            <textarea rows="10" value={description}
+            onChange={(e)=>setDescription(e.target.value)}
+            placeholder="Description"/>
+            <button type="submit">Create Job</button>
         </form>
       </div>
     </div>

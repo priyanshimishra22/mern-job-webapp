@@ -1,13 +1,16 @@
-import React,{useContext,useEffect,useState} from 'react'
-import {useNavigate,useParams} from 'react-router-dom'
+import React,{useContext, useEffect, useState} from 'react'
+import {useNavigate,useParams,Link} from 'react-router-dom'
 import {Context} from "../../main"
 import axios from "axios"
 const JobDetails = () => {
   const {id} = useParams()
   const [job, setJob]=useState({})
   const navigateTo = useNavigate()
-  const { isAuthorized, user} =useContext(Context)
+  const { isAuthorized, user} = useContext(Context)
   useEffect(()=>{
+    if(!isAuthorized){
+      navigateTo("/login")
+    }
   axios.get(`http://localhost:4000/api/v1/job/${id}`,{
     withCredentials:true,}).then((res)=>{
     setJob(res.data.job)
@@ -15,9 +18,6 @@ const JobDetails = () => {
       console.log(err.response.data.message)
     })
   },[])
-  if(!isAuthorized){
-    navigateTo("/login")
-  }
   return (
     <>
     <div className="jobDetails page">
@@ -25,7 +25,7 @@ const JobDetails = () => {
         <h3>Job Details</h3>
         <div className="banner">
           <p>Title:
-            <span>{job.Title}</span>
+            <span>{job.title}</span>
           </p>
           <p>Category:
             <span>{job.category}</span>
@@ -45,7 +45,7 @@ const JobDetails = () => {
           <p>Job Posted On:
             <span>{job.jobPostedOn}</span>
           </p>
-          <p>Salary :{job.fixedSalary?(<span>{job.FixedSalary}</span>):(<span>{job.SalaryFrom}-{job.SalaryTo}</span>)}</p>
+          <p>Salary :{job.fixedSalary?(<span>{job.fixedSalary}</span>):(<span>{job.SalaryFrom}-{job.SalaryTo}</span>)}</p>
           <p>
             {
               user && user.role==="Employer"?(<></>):(<Link to={`/application/${job._id}`}>Apply Now</Link>)

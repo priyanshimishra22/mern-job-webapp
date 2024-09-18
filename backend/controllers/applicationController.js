@@ -75,7 +75,7 @@ export const postApplication = catchAsyncError(async(req,res,next)=>{
     }
     const {resume} = req.files;
     
-    const allowedFormats = ['image/png','image/jpg','image/webp']
+    const allowedFormats = ['image/png','image/jpeg','image/webp']
     if(!allowedFormats.includes(resume.mimetype)){
         return next(new ErrorHandler("Invalid File Type.Please upload your resume in a png,jpeg or webp format",400))
     }
@@ -101,7 +101,7 @@ export const postApplication = catchAsyncError(async(req,res,next)=>{
         user: jobDetails.postedBy,
         role: "Employer",
     }
-    if(!name||!email||!coverLetter||!phone||!address||!applicantID||!employerID||!resume){
+    if(!name||!email||!coverLetter||!phone||!address||!resume){
         return next(new ErrorHandler("Please fill all fields!",400))
     }
     const application = await Application.create({

@@ -1,6 +1,6 @@
-import React ,{useContext, useState}from 'react'
+import React ,{useContext, useState, useEffect}from 'react'
 import {Context} from "../../main"
-import {useNavigate} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import axios from "axios"
 
 
@@ -10,6 +10,9 @@ const Jobs = () => {
   const navigateTo = useNavigate();
 
   useEffect(()=>{
+    if(!isAuthorized){
+      navigateTo("/login")
+    }
     try{
       axios.get("http://localhost:4000/api/v1/job/getall",{withCredentials:true}).then((res)=>{
         setJobs(res.data);
@@ -18,9 +21,6 @@ const Jobs = () => {
       console.log(error)
     }
   }, [])
-  if(!isAuthorized){
-    navigateTo("/login")
-  }
   return (
     <>
     <section className="jobs page">

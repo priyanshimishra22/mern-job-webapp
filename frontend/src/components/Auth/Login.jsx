@@ -2,12 +2,13 @@ import React,{useContext, useState} from 'react'
 import {Context} from '../../main'
 import axios from "axios";
 import toast from "react-hot-toast";
-import {Navigate,Link} from "react-router-dom"
+import {Navigate,Link, useNavigate} from "react-router-dom"
 import { FaPencilAlt, FaRegUser } from 'react-icons/fa';
 import {MdOutlineMailOutline} from 'react-icons/md'
 import { FaPhoneFlip } from 'react-icons/fa6';
 import { RiLock2Fill } from 'react-icons/ri';
 const Login = () => {
+  const navigate = useNavigate()
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [role,setRole] = useState("");
@@ -34,6 +35,7 @@ const Login = () => {
     setRole("")
     setPassword("")
     setIsAuthorized(true);
+    navigate("/")
     }catch(error){
       toast.error(error.response.data.message)
     }
@@ -90,7 +92,7 @@ const Login = () => {
             </div>
           </div>
           <button onClick={handleLogin} type="submit">Login</button>
-        <Link to={'/register'}>Login Now</Link>
+        <Link to={'/register'}>Register Now</Link>
         </form>
       </div>
       <div className="banner">

@@ -2,14 +2,17 @@ import React,{useContext, useState} from 'react'
 import {Context} from '../../main'
 import axios from "axios";
 import toast from "react-hot-toast";
-import {Navigate,Link} from "react-router-dom"
+import {Navigate,Link, useNavigate} from "react-router-dom"
 import { FaPencilAlt, FaRegUser } from 'react-icons/fa';
 import {MdOutlineMailOutline} from 'react-icons/md'
 import { FaPhoneFlip } from 'react-icons/fa6';
 import { RiLock2Fill } from 'react-icons/ri';
 const Register = () => {
+  const navigate = useNavigate();
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
+
+  const [show, setShow] = useState(false);
 
   const [phone,setPhone] = useState("");
 
@@ -39,6 +42,7 @@ const Register = () => {
     setRole("")
     setPassword("")
     setIsAuthorized(true);
+    navigate("/login")
     }catch(error){
       toast.error(error.response.data.message)
     }
@@ -108,11 +112,11 @@ const Register = () => {
             <label> Password </label>
             <div>
               <input 
-              type="password" 
+              type={!show?"password":"text"}
               value={password} 
               onChange={(e)=>setPassword(e.target.value)} 
               placeholder="Password"/>
-              <RiLock2Fill/>
+              <RiLock2Fill onClick={()=>setShow(!show)}/>
               
             </div>
           </div>
